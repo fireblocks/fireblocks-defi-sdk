@@ -1,0 +1,34 @@
+import { Deferrable } from "@ethersproject/properties";
+import { PeerType, TransactionOperation, CreateTransactionResponse, TransactionArguments } from "fireblocks-sdk";
+import { PopulatedTransaction } from "ethers";
+import { BaseBridge } from "./base-bridge";
+import { formatEther } from "ethers/lib/utils";
+
+
+export class EthersBridge extends BaseBridge {
+    async sendTransaction(transaction: Deferrable<PopulatedTransaction>, txNote?: string): Promise<CreateTransactionResponse> {
+        const txArguments: TransactionArguments = {
+            operation: TransactionOperation.CONTRACT_CALL,
+            assetId: this.assetId,
+            source: {
+                type: PeerType.VAULT_ACCOUNT,
+                id: this.params.vaultAccountId
+            },
+            gasPrice: transaction.gasPrice?.toString(),
+            gasLimit: transaction.gasLimit?.toString(),
+            destination: {
+                type: PeerType.EXTERNAL_WALLET,
+                id: this.params.externalWalletId,
+                oneTimeAddress: {
+                    address: <string>transaction.to
+                }
+            },
+            note: txNote || '',
+            amount: formatEther(transaction.value?.toString() || "0"),
+            extraParameters: {
+                contractCallData: transaction.data
+            }
+        };
+        return this.params.fireblocksApiClient.createTransaction(txArguments);
+    }
+}
