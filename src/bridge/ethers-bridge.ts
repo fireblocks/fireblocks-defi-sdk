@@ -2,7 +2,7 @@ import { Deferrable } from "@ethersproject/properties";
 import { PeerType, TransactionOperation, CreateTransactionResponse, TransactionArguments } from "fireblocks-sdk";
 import { PopulatedTransaction } from "ethers";
 import { BaseBridge } from "./base-bridge";
-import { formatEther } from "ethers/lib/utils";
+import { formatEther, formatUnits } from "ethers/lib/utils";
 
 
 export class EthersBridge extends BaseBridge {
@@ -14,7 +14,7 @@ export class EthersBridge extends BaseBridge {
                 type: PeerType.VAULT_ACCOUNT,
                 id: this.params.vaultAccountId
             },
-            gasPrice: transaction.gasPrice?.toString(),
+            gasPrice: transaction.gasPrice != undefined ? formatUnits(transaction.gasPrice.toString(), "gwei") : undefined,
             gasLimit: transaction.gasLimit?.toString(),
             destination: {
                 type: PeerType.EXTERNAL_WALLET,
