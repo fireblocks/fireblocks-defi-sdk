@@ -10,7 +10,7 @@ Please email us at support@fireblocks.com if you have questions or comments abou
 
 ## Features
 * [Ethers.js bridge](./src/bridge/ethers-bridge.ts)
-* Web3 bridge - Coming soon
+* [Web3.js bridge](./src/bridge/web3-bridge.ts)
 
 ## Code Examples
 * [Basic Example](./examples/basic-example)
