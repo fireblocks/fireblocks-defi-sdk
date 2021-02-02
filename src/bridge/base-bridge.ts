@@ -1,4 +1,4 @@
-import { TransactionStatus } from "fireblocks-sdk";
+import { TransactionResponse, TransactionStatus } from "fireblocks-sdk";
 import { BridgeParams } from "../interfaces/bridge-params";
 import { Chain } from "../interfaces/chain";
 
@@ -14,8 +14,16 @@ const CHAIN_IDS = {
     [Chain.KOVAN]: 42
 }
 
+
 export abstract class BaseBridge {
     readonly assetId: string;
+    static readonly finalTransactionStates = [
+        TransactionStatus.COMPLETED,
+        TransactionStatus.FAILED,
+        TransactionStatus.CANCELLED,
+        TransactionStatus.BLOCKED,
+        TransactionStatus.REJECTED
+    ];
  
      constructor(readonly params: BridgeParams) {
          const chain = params.chain || Chain.MAINNET;
@@ -34,19 +42,26 @@ export abstract class BaseBridge {
      async waitForTxHash(txId: string, timeoutMs?: number): Promise<string> {
          return Promise.race([
              (async () => {
-                while (true) {
-                    const txDetails = await this.params.fireblocksApiClient.getTransactionById(txId);
-
-                    if ([TransactionStatus.BLOCKED, TransactionStatus.CANCELLED, TransactionStatus.FAILED].includes(txDetails.status)) {
-                        throw `Transaction was not completed successfully. Final Status: ${txDetails.status}`;
+                let status: TransactionStatus;
+                let txInfo: TransactionResponse;
+                while(!BaseBridge.finalTransactionStates.includes(status)) {
+                    try {
+                        txInfo = await this.params.fireblocksApiClient.getTransactionById(txId);
+                        status = txInfo.status;
+                    } catch (err) {
+                        console.error(err);
                     }
-    
-                    if(txDetails.txHash) {
-                        return txDetails.txHash;
+                    if (txInfo.txHash) {
+                        return txInfo.txHash;
                     }
-
-                    await new Promise(r => setTimeout(r, 500));
+                    await new Promise(r => setTimeout(r, 1000));
+                };
+                
+                if(status != TransactionStatus.COMPLETED)
+                {
+                    throw `Transaction was not completed successfully. Final Status: ${status}`;
                 }
+                return txInfo.txHash;
             })(),
             new Promise<string>((resolve, reject) => {
                 if(timeoutMs) {

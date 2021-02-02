@@ -8,7 +8,7 @@ This example demonstrates interaction with UniSwap using Fireblocks DeFi SDK and
 2) Set the following environment variables:
 * `FIREBLOCKS_API_SECRET_PATH` - The path of your Fireblocks API secret, aka Fireblocks API Private Key.
 * `FIREBLOCKS_API_KEY` -  Your Fireblocks API key.
-* `FIREBLOCKS_EXTERNAL_WALLET` -  The ID of the Fireblocks External Wallet which will be tagged as the destination of the transactions.
+* `FIREBLOCKS_EXTERNAL_WALLET` -  (Optional) ID of a Fireblocks External Wallet which will be tagged as the destination of the transactions.
 * `FIREBLOCKS_SOURCE_VAULT_ACCOUNT` -  (Optional) The ID of Fireblocks Vault Account which will be used as the source of the transactions. Defaults to Vault Account 0.
 * `ETH_CHAIN` -  (Optional) The Ethereum chain to connect to. The options are MAINNET and ROPSTEN. Defaults to ROPSTEN.
 

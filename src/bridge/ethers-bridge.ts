@@ -17,7 +17,7 @@ export class EthersBridge extends BaseBridge {
             gasPrice: transaction.gasPrice != undefined ? formatUnits(transaction.gasPrice.toString(), "gwei") : undefined,
             gasLimit: transaction.gasLimit?.toString(),
             destination: {
-                type: PeerType.EXTERNAL_WALLET,
+                type: this.params.externalWalletId ? PeerType.EXTERNAL_WALLET : PeerType.ONE_TIME_ADDRESS,
                 id: this.params.externalWalletId,
                 oneTimeAddress: {
                     address: <string>transaction.to
