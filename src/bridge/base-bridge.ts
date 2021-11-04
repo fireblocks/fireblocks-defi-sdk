@@ -5,13 +5,19 @@ import { Chain } from "../interfaces/chain";
 const CHAIN_TO_ASSET_ID: {[key: string]: string } = {
     [Chain.MAINNET]: 'ETH',
     [Chain.ROPSTEN]: 'ETH_TEST',
-    [Chain.KOVAN]: 'ETH_TEST2'
+    [Chain.KOVAN]: 'ETH_TEST2',
+    [Chain.BSC]: 'BNB_BSC',
+    [Chain.BSC_TEST]: 'BNB_TEST',
+    [Chain.POLYGON]: 'MATIC_POLYGON'
 }
 
 const CHAIN_IDS = {
     [Chain.MAINNET]: 1,
     [Chain.ROPSTEN]: 3,
-    [Chain.KOVAN]: 42
+    [Chain.KOVAN]: 42,
+    [Chain.BSC]: 56,
+    [Chain.BSC_TEST]: 97,
+    [Chain.POLYGON]: 137
 }
 
 
