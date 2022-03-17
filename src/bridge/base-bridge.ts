@@ -5,7 +5,7 @@ import { Chain } from "../interfaces/chain";
 const CHAIN_TO_ASSET_ID: {[key: string]: string } = {
     [Chain.MAINNET]: 'ETH',
     [Chain.ROPSTEN]: 'ETH_TEST',
-    [Chain.GOERLI]: "ETH_TEST3",
+    [Chain.GOERLI]: 'ETH_TEST3',
     [Chain.KOVAN]: 'ETH_TEST2',
     [Chain.BSC]: 'BNB_BSC',
     [Chain.BSC_TEST]: 'BNB_TEST',
