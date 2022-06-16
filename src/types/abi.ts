@@ -1,0 +1,1 @@
+export type ABIStructure = { [key: string]: any }

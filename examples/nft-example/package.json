@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node dist/index.js"
+    "start": "tsc && node dist/examples/nft-example/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "fireblocks-defi-sdk": "^1.1.0",
-    "fireblocks-sdk": "^1.5.11"
+    "fireblocks-sdk": "^1.14.0"
   }
 }
