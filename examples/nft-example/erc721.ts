@@ -7,24 +7,8 @@ import {BigNumber, ethers} from "ethers";
 
 const CHAIN = Chain.KOVAN;
 const CONTRACT_ADDRESS = "0x7cC1FB0fC8Dd54Cc63a01F1eC29B3375B8c9dCac";
-const CONTRACT_ABI = [{
-    "constant": false,
-    "inputs": [{"name": "_greeting", "type": "string"}],
-    "name": "greet",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [],
-    "name": "getGreeting",
-    "outputs": [{"name": "", "type": "string"}],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}];
-const GREETING = "Hello";
+
+process.env.FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks_secret.key';
 process.env.FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks_secret.key';
 process.env.FIREBLOCKS_API_KEY = '';
 (async function () {
@@ -39,7 +23,7 @@ process.env.FIREBLOCKS_API_KEY = '';
     }
     const erc721 = new ERC721(bridgeParams);
 
-    const response = await erc721.ownerOf(102);
+    const response = await erc721.submitTransaction('');
     console.log(response);
 }()).catch(err => {
     console.log("error", err);

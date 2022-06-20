@@ -4,6 +4,8 @@ import {Web3Bridge} from "../bridge/web3-bridge";
 import {CreateTransactionResponse} from "fireblocks-sdk";
 import {ContractFunction} from "@ethersproject/contracts";
 import {ABIStructure} from "../types/abi";
+import fetch from "node-fetch";
+
 
 export class BaseToken {
     private readonly _allFunctions: { [key: string]: ContractFunction | any };
@@ -19,7 +21,9 @@ export class BaseToken {
         this.bridgeParams = bridgeParams;
         this.web3Bridge = new Web3Bridge(this.bridgeParams);
         this.contractABI = contractABI
-        this.contract = new ethers.Contract(this.bridgeParams.externalWalletId, JSON.stringify(this.contractABI), ethers.getDefaultProvider(this.bridgeParams.chain));
+        this.contract = new ethers.Contract(this.bridgeParams.contractAddress,
+            JSON.stringify(this.contractABI),
+            ethers.getDefaultProvider(this.bridgeParams.chain));
         this._allFunctions = this.contract.functions;
     }
 
@@ -30,7 +34,7 @@ export class BaseToken {
      * @param args - function params
      */
     buildTransaction(abiName: string, ...args) {
-        return this.contract.populateTransaction[abiName](...args);
+        return this.contract.populateTransaction[abiName].call(this, ...args);
     }
 
     /**
@@ -38,8 +42,13 @@ export class BaseToken {
      * @param abiName
      * @param args
      */
-    callView(abiName: string, ...args): Promise<any> {
-        return this.contract[abiName](...args);
+    async callView(abiName: string, ...args): Promise<any> {
+        try {
+            const response = await this.contract.functions[abiName].call(this, ...args);
+            return response[0] ?? response;
+        } catch (e) {
+            throw new Error(e);
+        }
     }
 
 
@@ -50,6 +59,17 @@ export class BaseToken {
      */
     submitTransaction(transactionData, notes?: string): Promise<CreateTransactionResponse> {
         return this.web3Bridge.sendTransaction(transactionData, notes);
+    }
+
+
+    static async fetchABI(contractAddress: string): Promise<ABIStructure> {
+        try {
+            const abi = await fetch(`https://api.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}`);
+            console.log(abi.body);
+        } catch (e) {
+            console.log(e);
+        }
+        return;
     }
 
 }

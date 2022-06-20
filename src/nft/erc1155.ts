@@ -98,10 +98,7 @@ export class ERC1155 extends BaseToken {
      * Checks if contract supports a certain interface.
      * @param interfaceId - (Optional) The interface id. "0x80ac58cd" is ERC721 interface id. "0xd9b67a26" is ERC1155
      */
-    supports_interface(interfaceId: string = ""): Promise<boolean> {
-        if (interfaceId === '') {
-            interfaceId = "0xd9b67a26"
-        }
+    supportsInterface(interfaceId: string = '0xd9b67a26'): Promise<boolean> {
         return this.callView("supportsInterface", interfaceId);
     }
 

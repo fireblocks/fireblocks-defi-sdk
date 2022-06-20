@@ -2,8 +2,8 @@ import {BaseToken} from "./base-token";
 import {ERC721_ABI} from "../constants/base-abis";
 import {BridgeParams} from "../interfaces/bridge-params";
 import {CreateTransactionResponse} from "fireblocks-sdk";
-import Web3 from 'web3';
-import {Bytes, BytesLike} from "ethers";
+import {BigNumber} from "ethers";
+import Web3 from "Web3";
 
 export class ERC721 extends BaseToken {
 
@@ -51,7 +51,7 @@ export class ERC721 extends BaseToken {
      * @param tokenId
      * @param note
      */
-    transfer_from(fromAddress: string, toAddress: string, tokenId: number, note: string = ""): Promise<CreateTransactionResponse> {
+    transferFrom(fromAddress: string, toAddress: string, tokenId: number, note: string = ""): Promise<CreateTransactionResponse> {
         const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress)
         const checkedToAddress = Web3.utils.checkAddressChecksum(toAddress);
         return this.submitTransaction(this.buildTransaction("transferFrom", checkedFromAddress,
@@ -64,7 +64,7 @@ export class ERC721 extends BaseToken {
      * @param isApproved
      * @param note
      */
-    set_approval_for_all(operatorAddress: string, isApproved: boolean, note: string = ""): Promise<CreateTransactionResponse> {
+    setApprovalForAll(operatorAddress: string, isApproved: boolean, note: string = ""): Promise<CreateTransactionResponse> {
         const checkedOperatorAddress = Web3.utils.toChecksumAddress(operatorAddress)
         return this.submitTransaction(this.buildTransaction("setApprovalForAll", checkedOperatorAddress, isApproved, note), note)
     }
@@ -75,7 +75,7 @@ export class ERC721 extends BaseToken {
      *
      * @param interfaceId
      */
-    supportsInterface(interfaceId: BytesLike = '0x80ac58cd'): Promise<boolean> {
+    supportsInterface(interfaceId: string = '0x80ac58cd'): Promise<boolean> {
         return this.callView("supportsInterface", interfaceId)
     }
 
@@ -83,7 +83,7 @@ export class ERC721 extends BaseToken {
      *
      * @param tokenId
      */
-    getApproved(tokenId: number): Promise<boolean> {
+    getApproved(tokenId: number): Promise<string> {
         return this.callView("getApproved", tokenId);
     }
 
@@ -102,7 +102,7 @@ export class ERC721 extends BaseToken {
      *
      * @param ownerAddress
      */
-    balanceOf(ownerAddress: string): Promise<number> {
+    balanceOf(ownerAddress: string): Promise<BigNumber> {
         const ownerCheckedAddress = Web3.utils.toChecksumAddress(ownerAddress)
         return this.callView("balanceOf", ownerCheckedAddress)
     }
