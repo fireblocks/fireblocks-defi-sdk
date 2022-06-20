@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node dist/examples/nft-example/index.js"
+    "start": "tsc && node dist/examples/nft-example/erc721.js",
+    "start:erc721": "tsc && node dist/examples/nft-example/erc721.js",
+    "start:erc1155": "tsc && node dist/examples/nft-example/erc1155.js",
+    "start:custom": "tsc && node dist/examples/nft-example/custom-token.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fireblocks-defi-sdk": "^1.1.0",
-    "fireblocks-sdk": "^1.14.0"
   }
 }

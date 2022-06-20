@@ -1,33 +1,13 @@
 import {FireblocksSDK} from "fireblocks-sdk";
 import * as fs from "fs";
-import {CustomToken, ERC721} from "../../src";
-import {Chain} from "fireblocks-defi-sdk";
+import {Chain, CustomToken, ERC721} from "../../src";
 import {BridgeParams} from "../../src/interfaces/bridge-params";
 import {BaseToken} from "../../src/nft/base-token";
 
 const CHAIN = Chain.KOVAN;
-// const CONTRACT_ADDRESS = "0x7cC1FB0fC8Dd54Cc63a01F1eC29B3375B8c9dCac";
 const CONTRACT_ADDRESS = "0x6C2A20b920a943237688dD6651200cAB253F5565";
-// const CONTRACT_ABI = [{
-//     "constant": false,
-//     "inputs": [{"name": "_greeting", "type": "string"}],
-//     "name": "greet",
-//     "outputs": [],
-//     "payable": false,
-//     "stateMutability": "nonpayable",
-//     "type": "function"
-// }, {
-//     "constant": true,
-//     "inputs": [],
-//     "name": "getGreeting",
-//     "outputs": [{"name": "", "type": "string"}],
-//     "payable": false,
-//     "stateMutability": "view",
-//     "type": "function"
-// }];
-const GREETING = "Hello";
 process.env.FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks_secret.key';
-process.env.FIREBLOCKS_API_KEY = '';
+process.env.FIREBLOCKS_API_KEY = '8a3e4a34-7acf-4165-bdbf-93f9f7b8cc55';
 (async function () {
     const apiSecret = fs.readFileSync(process.env.FIREBLOCKS_API_SECRET_PATH, "utf8");
     const fireblocksApiClient: FireblocksSDK = new FireblocksSDK(apiSecret, process.env.FIREBLOCKS_API_KEY, process.env.FIREBLOCKS_API_BASE_URL);
