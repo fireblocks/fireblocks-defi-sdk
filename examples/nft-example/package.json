@@ -1,17 +1,18 @@
 {
-  "name": "basic-example",
+  "name": "nft-example",
   "version": "1.0.0",
-  "description": "This example demonstrates a call to a greeting smart contract on the Ropsten network",
-  "main": "index.js",
+  "description": "This example using nft Fireblocks objects",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node dist/examples/nft-example/erc721.js",
-    "start:erc721": "tsc && node dist/examples/nft-example/erc721.js",
-    "start:erc1155": "tsc && node dist/examples/nft-example/erc1155.js",
-    "start:custom": "tsc && node dist/examples/nft-example/custom-token.js"
+    "build": "tsc -p ./tsconfig.json",
+    "start:erc721": "npm run build && node dist/erc721.js",
+    "start:erc1155": "npm run build && node dist/erc1155.js",
+    "start:custom": "npm run build && node dist/custom-token.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "node-fetch": "^2.6.7"
   }
 }

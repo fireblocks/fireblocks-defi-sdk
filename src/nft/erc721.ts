@@ -3,7 +3,7 @@ import {ERC721_ABI} from "../constants/base-abis";
 import {BridgeParams} from "../interfaces/bridge-params";
 import {CreateTransactionResponse} from "fireblocks-sdk";
 import {BigNumber} from "ethers";
-import Web3 from "Web3";
+import Web3 from "web3";
 
 export class ERC721 extends BaseToken {
 

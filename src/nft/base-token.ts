@@ -4,7 +4,6 @@ import {Web3Bridge} from "../bridge/web3-bridge";
 import {CreateTransactionResponse} from "fireblocks-sdk";
 import {ContractFunction} from "@ethersproject/contracts";
 import {ABIStructure} from "../types/abi";
-import fetch from "node-fetch";
 
 
 export class BaseToken {
@@ -18,8 +17,13 @@ export class BaseToken {
         if (!bridgeParams.chain) {
             throw new Error('Token must contain chain');
         }
-        this.bridgeParams = bridgeParams;
-        this.web3Bridge = new Web3Bridge(this.bridgeParams);
+
+        if (!bridgeParams.contractAddress) {
+            throw new Error('Token must contain contract address');
+        }
+
+        this.bridgeParams = {...bridgeParams, externalWalletId: bridgeParams.contractAddress};
+        this.web3Bridge = new Web3Bridge(bridgeParams);
         this.contractABI = contractABI
         this.contract = new ethers.Contract(this.bridgeParams.contractAddress,
             JSON.stringify(this.contractABI),
@@ -59,17 +63,6 @@ export class BaseToken {
      */
     submitTransaction(transactionData, notes?: string): Promise<CreateTransactionResponse> {
         return this.web3Bridge.sendTransaction(transactionData, notes);
-    }
-
-
-    static async fetchABI(contractAddress: string): Promise<ABIStructure> {
-        try {
-            const abi = await fetch(`https://api.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}`);
-            console.log(abi.body);
-        } catch (e) {
-            console.log(e);
-        }
-        return;
     }
 
 }

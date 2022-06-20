@@ -1,7 +1,5 @@
-import {FireblocksSDK} from "fireblocks-sdk";
 import * as fs from "fs";
-import {Chain, ERC721} from "../../src";
-import {BridgeParams} from "../../src/interfaces/bridge-params";
+import {BridgeParams, Chain, ERC721, FireblocksSDK} from "fireblocks-defi-sdk";
 
 const CHAIN = Chain.KOVAN;
 const CONTRACT_ADDRESS = "0x7cC1FB0fC8Dd54Cc63a01F1eC29B3375B8c9dCac";
@@ -16,12 +14,12 @@ process.env.FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
     const bridgeParams: BridgeParams = {
         fireblocksApiClient,
         vaultAccountId: process.env.FIREBLOCKS_SOURCE_VAULT_ACCOUNT || "0",
-        externalWalletId: CONTRACT_ADDRESS,
+        contractAddress: CONTRACT_ADDRESS,
         chain: CHAIN
     }
     const erc721 = new ERC721(bridgeParams);
 
-    const response = await erc721.submitTransaction('');
+    const response = await erc721.balanceOf('0x6aDab072713e930C099fc18F7A967252059149Ea');
     console.log(response);
 }()).catch(err => {
     console.log("error", err);

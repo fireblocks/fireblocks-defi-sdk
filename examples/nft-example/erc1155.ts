@@ -1,7 +1,5 @@
-import {FireblocksSDK} from "fireblocks-sdk";
 import * as fs from "fs";
-import {Chain, ERC1155} from "../../src";
-import {BridgeParams} from "../../src/interfaces/bridge-params";
+import {BridgeParams, Chain, ERC1155, FireblocksSDK} from "fireblocks-defi-sdk";
 
 const CHAIN = Chain.KOVAN;
 const CONTRACT_ADDRESS = "0x7cC1FB0fC8Dd54Cc63a01F1eC29B3375B8c9dCac";
@@ -16,7 +14,7 @@ process.env.FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
     const bridgeParams: BridgeParams = {
         fireblocksApiClient,
         vaultAccountId: process.env.FIREBLOCKS_SOURCE_VAULT_ACCOUNT || "0",
-        externalWalletId: CONTRACT_ADDRESS,
+        contractAddress: CONTRACT_ADDRESS,
         chain: CHAIN
     }
     const erc1155 = new ERC1155(bridgeParams);
