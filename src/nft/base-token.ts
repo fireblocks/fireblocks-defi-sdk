@@ -4,6 +4,7 @@ import {Web3Bridge} from "../bridge/web3-bridge";
 import {CreateTransactionResponse} from "fireblocks-sdk";
 import {ContractFunction} from "@ethersproject/contracts";
 import {ABIStructure} from "../types/abi";
+import {CHAIN_TO_ASSET_ID} from "../bridge/base-bridge";
 
 
 export class BaseToken {
@@ -12,6 +13,7 @@ export class BaseToken {
     private readonly contract: ethers.Contract;
     web3Bridge: Web3Bridge;
     contractABI: ABIStructure;
+    address: string;
 
     constructor(bridgeParams: BridgeParams, contractABI: ABIStructure) {
         if (!bridgeParams.chain) {
@@ -29,6 +31,7 @@ export class BaseToken {
             JSON.stringify(this.contractABI),
             ethers.getDefaultProvider(this.bridgeParams.chain));
         this._allFunctions = this.contract.functions;
+        this.setWalletAddress();
     }
 
 
@@ -37,8 +40,8 @@ export class BaseToken {
      * @param abiName - abi function name
      * @param args - function params
      */
-    buildTransaction(abiName: string, ...args) {
-        return this.contract.populateTransaction[abiName].call(this, ...args);
+    async buildTransaction(abiName: string, ...args) {
+        return await this.contract.populateTransaction[abiName].call(this, ...args);
     }
 
     /**
@@ -65,4 +68,8 @@ export class BaseToken {
         return this.web3Bridge.sendTransaction(transactionData, notes);
     }
 
+    private async setWalletAddress() {
+        const res = await this.bridgeParams.fireblocksApiClient.getDepositAddresses(this.bridgeParams.vaultAccountId, CHAIN_TO_ASSET_ID[this.bridgeParams.chain]);
+        this.address = res.length > 0 ? res.pop()?.address : null
+    }
 }

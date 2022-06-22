@@ -14,8 +14,15 @@ export class CustomToken extends BaseToken {
         return this.callView(abiFunctionName, ...args);
     }
 
-    callWriteFunction(abiFunctionName: string, notes: string, ...args): Promise<CreateTransactionResponse> {
-        return this.submitTransaction(this.buildTransaction(abiFunctionName, ...args, notes), notes);
+    /**
+     *
+     * @param abiFunctionName
+     * @param notes
+     * @param args - arguments for contract call (addresses should be wrapped with Web3.toChecksumAddress(address)
+     */
+    async callWriteFunction(abiFunctionName: string, notes: string, ...args): Promise<CreateTransactionResponse> {
+        const transactionData = await this.buildTransaction(abiFunctionName, ...args, notes);
+        return this.submitTransaction(transactionData, notes);
     }
 
 }

@@ -19,8 +19,10 @@ export class ERC721 extends BaseToken {
      * @param tokenId
      * @param note
      */
-    approve(toAddress: string, tokenId: number, note: string = ""): Promise<CreateTransactionResponse> {
-        return this.submitTransaction(this.buildTransaction("approve", toAddress, tokenId), note)
+    async approve(toAddress: string, tokenId: number, note: string = ""): Promise<CreateTransactionResponse> {
+        const checkedToAddress = Web3.utils.toChecksumAddress(toAddress);
+        const transactionData = await this.buildTransaction("approve", checkedToAddress, tokenId);
+        return this.submitTransaction(transactionData, note)
     }
 
     /**
@@ -31,16 +33,21 @@ export class ERC721 extends BaseToken {
      * @param data
      * @param note
      */
-    safeTransferFrom(fromAddress: string, toAddress: string, tokenId: number, data: string = "", note: string = ""): Promise<CreateTransactionResponse> {
+    async safeTransferFrom(toAddress: string, tokenId: number, data: string = "", note: string = "", fromAddress?: string): Promise<CreateTransactionResponse> {
+        let transactionData;
+        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress || this.address)
+        const checkedToAddress = Web3.utils.toChecksumAddress(toAddress);
         if (data) {
-            return this.submitTransaction(this.buildTransaction("safeTransferFrom",
-                fromAddress,
-                toAddress,
+            transactionData = await this.buildTransaction("safeTransferFrom",
+                checkedFromAddress,
+                checkedToAddress,
                 tokenId,
                 data
-            ), note)
+            )
+        } else {
+            transactionData = await this.buildTransaction("safeTransferFrom", checkedFromAddress, checkedToAddress, tokenId)
         }
-        return this.submitTransaction(this.buildTransaction("safeTransferFrom", fromAddress, toAddress, tokenId), note)
+        return this.submitTransaction(transactionData, note)
     }
 
 
@@ -51,11 +58,13 @@ export class ERC721 extends BaseToken {
      * @param tokenId
      * @param note
      */
-    transferFrom(fromAddress: string, toAddress: string, tokenId: number, note: string = ""): Promise<CreateTransactionResponse> {
-        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress)
-        const checkedToAddress = Web3.utils.checkAddressChecksum(toAddress);
-        return this.submitTransaction(this.buildTransaction("transferFrom", checkedFromAddress,
-            checkedToAddress, tokenId), note)
+    async transferFrom(toAddress: string, tokenId: number, note: string = "", fromAddress?: string): Promise<CreateTransactionResponse> {
+        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress || this.address)
+        const checkedToAddress = Web3.utils.toChecksumAddress(toAddress);
+        const transactionData = await this.buildTransaction("transferFrom", checkedFromAddress,
+            checkedToAddress, tokenId);
+
+        return this.submitTransaction(transactionData, note)
     }
 
     /**
@@ -64,9 +73,9 @@ export class ERC721 extends BaseToken {
      * @param isApproved
      * @param note
      */
-    setApprovalForAll(operatorAddress: string, isApproved: boolean, note: string = ""): Promise<CreateTransactionResponse> {
+    async setApprovalForAll(operatorAddress: string, isApproved: boolean, note: string = ""): Promise<CreateTransactionResponse> {
         const checkedOperatorAddress = Web3.utils.toChecksumAddress(operatorAddress)
-        return this.submitTransaction(this.buildTransaction("setApprovalForAll", checkedOperatorAddress, isApproved, note), note)
+        return this.submitTransaction(await this.buildTransaction("setApprovalForAll", checkedOperatorAddress, isApproved, note), note)
     }
 
     /** Views **/

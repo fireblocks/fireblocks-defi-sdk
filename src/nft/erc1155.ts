@@ -26,31 +26,35 @@ export class ERC1155 extends BaseToken {
      * @param data
      * @param note
      */
-    safeBatchTransferFrom(fromAddress: string, toAddress: string, tokenIds: number[], values: number[],
-                          data: Uint8Array = null, note: string = ""): Promise<CreateTransactionResponse> {
-        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress)
+    async safeBatchTransferFrom(toAddress: string, tokenIds: number[], values: number[],
+                                data: Uint8Array = null, note: string = "", fromAddress?: string): Promise<CreateTransactionResponse> {
+        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress || this.address)
         const checkedToAddress = Web3.utils.toChecksumAddress(toAddress)
 
         if (tokenIds?.length != values?.length) {
             throw new Error('Length of token_ids and values must match!');
         }
 
+        let transactionData;
+
         if (data) {
-            return this.submitTransaction(this.buildTransaction("safeTransferFrom",
+            transactionData = await this.buildTransaction("safeTransferFrom",
                 checkedFromAddress,
                 checkedToAddress,
                 tokenIds,
                 values,
                 data
-            ), note)
+            )
+        } else {
+            transactionData = await this.buildTransaction("safeTransferFrom",
+                checkedFromAddress,
+                checkedToAddress,
+                tokenIds,
+                values
+            )
         }
 
-        return this.submitTransaction(this.buildTransaction("safeTransferFrom",
-            checkedFromAddress,
-            checkedToAddress,
-            tokenIds,
-            values
-        ), note)
+        return this.submitTransaction(transactionData, note)
     }
 
     /**
@@ -61,22 +65,25 @@ export class ERC1155 extends BaseToken {
      * @param data - Send additional data (bytes) only if required by contract.
      * @param note
      */
-    safeTransferFrom(fromAddress: string, toAddress: string, tokenId: number, data: Uint8Array = null, note: string = ""): Promise<CreateTransactionResponse> {
-        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress)
+    async safeTransferFrom(toAddress: string, tokenId: number, data: Uint8Array = null, note: string = "", fromAddress?: string): Promise<CreateTransactionResponse> {
+        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress || this.address)
         const checkedToAddress = Web3.utils.toChecksumAddress(toAddress)
+        let transactionData
         if (data) {
-            return this.submitTransaction(this.buildTransaction("safeTransferFrom",
+            transactionData = await this.buildTransaction("safeTransferFrom",
                 checkedFromAddress,
                 checkedToAddress,
                 tokenId,
                 data
-            ), note);
+            )
+        } else {
+            transactionData = await this.buildTransaction("safeTransferFrom",
+                checkedFromAddress,
+                checkedToAddress,
+                tokenId
+            )
         }
-        return this.submitTransaction(this.buildTransaction("safeTransferFrom",
-            checkedFromAddress,
-            checkedToAddress,
-            tokenId
-        ), note);
+        return this.submitTransaction(transactionData, note);
     }
 
 
@@ -86,9 +93,10 @@ export class ERC1155 extends BaseToken {
      * @param isApproved - True to permit, False to revoke
      * @param notes - (Optional) Add a note to the transaction
      */
-    setApprovalForAll(operatorAddress: string, isApproved: boolean, notes?: string): Promise<CreateTransactionResponse> {
+    async setApprovalForAll(operatorAddress: string, isApproved: boolean, notes?: string): Promise<CreateTransactionResponse> {
         const checkedOperatorAddress = Web3.utils.toChecksumAddress(operatorAddress)
-        return this.submitTransaction(this.buildTransaction("setApprovalForAll", checkedOperatorAddress, isApproved, notes), notes);
+        const transactionData = await this.buildTransaction("setApprovalForAll", checkedOperatorAddress, isApproved, notes)
+        return this.submitTransaction(transactionData, notes);
     }
 
 
