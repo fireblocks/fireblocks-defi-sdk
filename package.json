@@ -20,7 +20,8 @@
     "ethers": "^5.5.1",
     "fireblocks-sdk": "^1.5.11",
     "node-fetch": "^2.6.7",
-    "web3": "^1.7.3"
+    "web3": "^1.7.3",
+    "web3-eth-contract": "^1.7.4"
   },
   "types": "dist/index.d.ts"
 }

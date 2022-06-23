@@ -75,8 +75,6 @@ export class Web3Bridge extends BaseBridge {
                 type: PeerType.VAULT_ACCOUNT,
                 id: this.params.vaultAccountId
             },
-            gasPrice: transaction.gasPrice != undefined ? formatUnits(transaction.gasPrice.toString(), "gwei") : undefined,
-            gasLimit: transaction.gas?.toString(),
             destination: {
                 type: this.params.externalWalletId ? PeerType.EXTERNAL_WALLET : PeerType.ONE_TIME_ADDRESS,
                 id: this.params.externalWalletId,

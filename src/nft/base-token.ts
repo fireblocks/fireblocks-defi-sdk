@@ -10,7 +10,7 @@ import {CHAIN_TO_ASSET_ID} from "../bridge/base-bridge";
 export class BaseToken {
     private readonly _allFunctions: { [key: string]: ContractFunction | any };
     private readonly bridgeParams: BridgeParams;
-    private readonly contract: ethers.Contract;
+    contract: ethers.Contract;
     web3Bridge: Web3Bridge;
     contractABI: ABIStructure;
     address: string;
@@ -31,7 +31,6 @@ export class BaseToken {
             JSON.stringify(this.contractABI),
             ethers.getDefaultProvider(this.bridgeParams.chain));
         this._allFunctions = this.contract.functions;
-        this.setWalletAddress();
     }
 
 
@@ -58,6 +57,16 @@ export class BaseToken {
         }
     }
 
+    /**
+     * Fetching Fireblocks default address using chain
+     */
+    async getAddress() {
+        if (!this.address) {
+            const res = await this.bridgeParams.fireblocksApiClient.getDepositAddresses(this.bridgeParams.vaultAccountId, CHAIN_TO_ASSET_ID[this.bridgeParams.chain]);
+            this.address = res?.length > 0 ? res.pop()?.address : null
+        }
+        return this.address
+    }
 
     /**
      * Submit transaction using defi SDK
@@ -68,8 +77,4 @@ export class BaseToken {
         return this.web3Bridge.sendTransaction(transactionData, notes);
     }
 
-    private async setWalletAddress() {
-        const res = await this.bridgeParams.fireblocksApiClient.getDepositAddresses(this.bridgeParams.vaultAccountId, CHAIN_TO_ASSET_ID[this.bridgeParams.chain]);
-        this.address = res.length > 0 ? res.pop()?.address : null
-    }
 }

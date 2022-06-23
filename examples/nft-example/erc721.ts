@@ -2,27 +2,54 @@ import * as fs from "fs";
 import {BridgeParams, Chain, ERC721, FireblocksSDK} from "fireblocks-defi-sdk";
 
 const CHAIN = Chain.KOVAN;
-const CONTRACT_ADDRESS = "0x7cC1FB0fC8Dd54Cc63a01F1eC29B3375B8c9dCac";
+const CONTRACT_ADDRESS = "0x9e8Af88b1229164d37103658FE6A69dAAAd62194";
+const FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks.key';
+const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
-process.env.FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks.key';
-process.env.FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
+
+/**
+ * Following example describes how to crate a ERC721 token connection, and
+ * perform read and write actions using Fireblocks infrastructure.
+ */
 (async function () {
-    const apiSecret = fs.readFileSync(process.env.FIREBLOCKS_API_SECRET_PATH, "utf8");
-    const apiKey = fs.readFileSync(process.env.FIREBLOCKS_API_KEY_PATH, "utf8");
 
+    /** Fireblocks Initialization **/
+
+        // Read file containing you Fireblocks Api Seacret Key
+    const apiSecret = fs.readFileSync(FIREBLOCKS_API_SECRET_PATH, "utf8");
+
+    // Read file containing you Fireblocks Api Key
+    const apiKey = fs.readFileSync(FIREBLOCKS_API_KEY_PATH, "utf8");
+
+    // Initialize Fireblocks SDK
     const fireblocksApiClient: FireblocksSDK = new FireblocksSDK(apiSecret, apiKey, process.env.FIREBLOCKS_API_BASE_URL);
 
+    // Build Bridge parameters to you Fireblocks account.
     const bridgeParams: BridgeParams = {
         fireblocksApiClient,
-        vaultAccountId: process.env.FIREBLOCKS_SOURCE_VAULT_ACCOUNT || "2",
+        vaultAccountId: process.env.FIREBLOCKS_SOURCE_VAULT_ACCOUNT || "0",
         contractAddress: CONTRACT_ADDRESS,
         chain: CHAIN
     }
+
+    // Initialize ERC721 Token with Fireblocks Bridge parameters
     const erc721 = new ERC721(bridgeParams);
 
-    const response = await erc721.transferFrom('0x76D6063b0A35Ec0f84fd22bA2F93754Fbf180e59',
-        '0x2709d3216186eB40aA91754c4722C9e80DDA4090', 102);
-    console.log(response);
+    /** Read/Write Examples **/
+
+    const RECEIVER_ADDRESS = '0x16127F7026615276F0f537Af59B84F39758b9A24';
+    const TOKEN_ID = 20;
+
+    // Perform a read action balanceOf uses you Fireblocks Vault address (address is optional)
+    const getBalance = await erc721.balanceOf();
+    console.log('getBalance response', getBalance);
+
+
+
+    // Perform write action transferFrom from Fireblocks vault to an address
+    const transferFrom = await erc721.transferFrom(RECEIVER_ADDRESS, TOKEN_ID);
+    console.log('transferFrom response', transferFrom);
+
 }()).catch(err => {
     console.log("error", err);
     process.exit(1);

@@ -10,6 +10,11 @@ export class CustomToken extends BaseToken {
     }
 
 
+    /**
+     *
+     * @param abiFunctionName
+     * @param args
+     */
     callReadFunction(abiFunctionName: string, ...args): Promise<any> {
         return this.callView(abiFunctionName, ...args);
     }
