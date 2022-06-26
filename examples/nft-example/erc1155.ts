@@ -2,7 +2,7 @@ import * as fs from "fs";
 import {BridgeParams, Chain, ERC1155, FireblocksSDK} from "fireblocks-defi-sdk";
 
 const CHAIN = Chain.KOVAN;
-const CONTRACT_ADDRESS = "0x73544d05210Be973901EA33034191a61969f9271";
+const CONTRACT_ADDRESS = "<contract-address>";
 const FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks.key';
 const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
@@ -35,7 +35,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
     // Initialize ERC721 Token with Fireblocks Bridge parameters
     const erc1155 = new ERC1155(bridgeParams);
 
-    const RECEIVER_ADDRESS = '0x16127F7026615276F0f537Af59B84F39758b9A24';
+    const RECEIVER_ADDRESS = '<receiver-address>';
     const TOKEN_ID = 1;
 
     /** Read/Write Examples **/

@@ -2,7 +2,7 @@ import * as fs from "fs";
 import {BridgeParams, Chain, ERC721, FireblocksSDK} from "fireblocks-defi-sdk";
 
 const CHAIN = Chain.KOVAN;
-const CONTRACT_ADDRESS = "0x9e8Af88b1229164d37103658FE6A69dAAAd62194";
+const CONTRACT_ADDRESS = "<contract-address>";
 const FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks.key';
 const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
@@ -15,7 +15,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Fireblocks Initialization **/
 
-        // Read file containing you Fireblocks Api Seacret Key
+    // Read file containing you Fireblocks Api Seacret Key
     const apiSecret = fs.readFileSync(FIREBLOCKS_API_SECRET_PATH, "utf8");
 
     // Read file containing you Fireblocks Api Key
@@ -37,7 +37,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Read/Write Examples **/
 
-    const RECEIVER_ADDRESS = '0x16127F7026615276F0f537Af59B84F39758b9A24';
+    const RECEIVER_ADDRESS = '<receiver-address>';
     const TOKEN_ID = 20;
 
     // Perform a read action balanceOf uses you Fireblocks Vault address (address is optional)

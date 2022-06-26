@@ -1,10 +1,9 @@
 import * as fs from "fs";
 import {BridgeParams, Chain, CustomToken, FireblocksSDK} from "fireblocks-defi-sdk";
 import {ABIStructure} from "../../dist/types/abi";
-import {CUSTOM_ABI} from "../../src/constants/base-abis";
 
 const CHAIN = Chain.KOVAN;
-const CONTRACT_ADDRESS = "0x73544d05210be973901ea33034191a61969f9271";
+const CONTRACT_ADDRESS = "<contract-address>";
 const FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks.key';
 const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
@@ -17,7 +16,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Fireblocks Initialization **/
 
-        // Read file containing you Fireblocks Api Seacret Key
+    // Read file containing you Fireblocks Api Seacret Key
     const apiSecret = fs.readFileSync(FIREBLOCKS_API_SECRET_PATH, "utf8");
 
     // Read file containing you Fireblocks Api Key
@@ -41,11 +40,11 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Read/Write Examples **/
 
-    const RECEIVER_ADDRESS = '';
-    const ADDRESS_INTERFACE = '';
+    const RECEIVER_ADDRESS = '<receiver-address>';
+    const INTERFACE_ADDRESS = '';
 
     // Perform a read action supportInterface uses you Fireblocks Vault address (address is optional)
-    const supportInterface = await customToken.callReadFunction('supportsInterface', ADDRESS_INTERFACE);
+    const supportInterface = await customToken.callReadFunction('supportsInterface', INTERFACE_ADDRESS);
     console.log('supportInterface response', supportInterface);
 
 
