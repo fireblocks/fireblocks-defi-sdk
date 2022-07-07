@@ -2,7 +2,7 @@ import * as fs from "fs";
 import {BridgeParams, Chain, ERC1155, FireblocksSDK} from "fireblocks-defi-sdk";
 
 const CHAIN = Chain.KOVAN;
-const CONTRACT_ADDRESS = "<contract-address>";
+const CONTRACT_ADDRESS = "";
 const FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks.key';
 const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
@@ -40,13 +40,13 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Read/Write Examples **/
 
-    // Perform a read action getBalance uses you Fireblocks Vault address (address is optional)
-    const getBalance = await erc1155.balanceOf(TOKEN_ID);
-    console.log('getBalance response', getBalance);
+    // Perform a read balanceOf action
+    const balanceOf = await erc1155.balanceOf(TOKEN_ID);
+    console.log('balanceOf response', balanceOf);
 
-    // Perform write action, transferFrom that
-    const transferFrom = await erc1155.setApprovalForAll(RECEIVER_ADDRESS, true);
-    console.log('transferFrom response', transferFrom);
+    // Perform write setApprovalForAll action
+    const setApprovalForAll = await erc1155.setApprovalForAll(RECEIVER_ADDRESS, true);
+    console.log('setApprovalForAll response', setApprovalForAll);
 
 
 }()).catch(err => {

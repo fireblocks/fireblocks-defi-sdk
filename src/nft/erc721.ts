@@ -124,6 +124,5 @@ export class ERC721 extends BaseToken {
         return this.callView("ownerOf", tokenId);
     }
 
-    /** Events **/
 
 }

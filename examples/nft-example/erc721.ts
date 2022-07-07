@@ -2,7 +2,7 @@ import * as fs from "fs";
 import {BridgeParams, Chain, ERC721, FireblocksSDK} from "fireblocks-defi-sdk";
 
 const CHAIN = Chain.KOVAN;
-const CONTRACT_ADDRESS = "<contract-address>";
+const CONTRACT_ADDRESS = "";
 const FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks.key';
 const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
@@ -10,6 +10,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 /**
  * Following example describes how to crate a ERC721 token connection, and
  * perform read and write actions using Fireblocks infrastructure.
+ * NOTE: For Write methods that require FromAddress,
  */
 (async function () {
 
@@ -37,7 +38,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Read/Write Examples **/
 
-    const RECEIVER_ADDRESS = '<receiver-address>';
+    const RECEIVER_ADDRESS = '';
     const TOKEN_ID = 20;
 
     // Perform a read action balanceOf uses you Fireblocks Vault address (address is optional)

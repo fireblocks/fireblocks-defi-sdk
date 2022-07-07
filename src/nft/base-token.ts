@@ -69,7 +69,7 @@ export class BaseToken {
     }
 
     /**
-     * Submit transaction using defi SDK
+     * Submit transaction using Fireblocks infrastructure
      * @param transactionData
      * @param notes - (Optional) Add a note to the transaction
      */

@@ -3,7 +3,7 @@ import {BridgeParams, Chain, CustomToken, FireblocksSDK} from "fireblocks-defi-s
 import {ABIStructure} from "../../dist/types/abi";
 
 const CHAIN = Chain.KOVAN;
-const CONTRACT_ADDRESS = "<contract-address>";
+const CONTRACT_ADDRESS = "";
 const FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks.key';
 const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
@@ -40,16 +40,17 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Read/Write Examples **/
 
-    const RECEIVER_ADDRESS = '<receiver-address>';
-    const INTERFACE_ADDRESS = '';
+    const FROM_ADDRESS = '';
+    const TO_ADDRESS = '';
+    const TOKEN_ID = 0;
 
     // Perform a read action supportInterface
-    const supportInterface = await customToken.callReadFunction('supportsInterface', INTERFACE_ADDRESS);
-    console.log('supportInterface response', supportInterface);
+    const balanceOf = await customToken.callReadFunction('balanceOf');
+    console.log('balanceOf response', balanceOf);
 
 
     // Perform write action transferOwnership
-    const transferFrom = await customToken.callWriteFunction('transferOwnership', RECEIVER_ADDRESS);
+    const transferFrom = await customToken.callWriteFunction('transferFrom', FROM_ADDRESS, TO_ADDRESS, TOKEN_ID);
     console.log('transferFrom response', transferFrom);
 
 

@@ -136,6 +136,7 @@ export class ERC1155 extends BaseToken {
     }
 
     /**
+     * Returns Token URI
      * @param tokenId
      */
     uri(tokenId: number): Promise<string> {
