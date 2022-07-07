@@ -43,12 +43,12 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
     const RECEIVER_ADDRESS = '<receiver-address>';
     const INTERFACE_ADDRESS = '';
 
-    // Perform a read action supportInterface uses you Fireblocks Vault address (address is optional)
+    // Perform a read action supportInterface
     const supportInterface = await customToken.callReadFunction('supportsInterface', INTERFACE_ADDRESS);
     console.log('supportInterface response', supportInterface);
 
 
-    // Perform write action transferFrom from Fireblocks vault to an address
+    // Perform write action transferOwnership
     const transferFrom = await customToken.callWriteFunction('transferOwnership', RECEIVER_ADDRESS);
     console.log('transferFrom response', transferFrom);
 
