@@ -35,7 +35,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
     // Initialize ERC721 Token with Fireblocks Bridge parameters
     const erc1155 = new ERC1155(bridgeParams);
 
-    const RECEIVER_ADDRESS = '<receiver-address>';
+    const RECEIVER_ADDRESS = '';
     const TOKEN_ID = 1;
 
     /** Read/Write Examples **/
