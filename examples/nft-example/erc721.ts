@@ -16,7 +16,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Fireblocks Initialization **/
 
-    // Read file containing you Fireblocks Api Seacret Key
+    // Read file containing your Fireblocks Api Secret Key
     const apiSecret = fs.readFileSync(FIREBLOCKS_API_SECRET_PATH, "utf8");
 
     // Read file containing you Fireblocks Api Key

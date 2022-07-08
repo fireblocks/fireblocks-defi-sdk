@@ -42,11 +42,11 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     // Perform a read balanceOf action
     const balance = await erc1155.balanceOf(TOKEN_ID);
-    console.log('balanceOf response', balanceOf);
+    console.log('balanceOf response', balance);
 
     // Perform write setApprovalForAll action
-    const setApprovalForAll = await erc1155.setApprovalForAll(RECEIVER_ADDRESS, true);
-    console.log('setApprovalForAll response', setApprovalForAll);
+    const setApprovalForAllResult = await erc1155.setApprovalForAll(RECEIVER_ADDRESS, true);
+    console.log('setApprovalForAll response', setApprovalForAllResult);
 
 
 }()).catch(err => {
