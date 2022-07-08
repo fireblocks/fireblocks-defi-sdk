@@ -15,4 +15,9 @@ Please email us at support@fireblocks.com if you have questions or comments abou
 ## Code Examples
 * [Basic Example](./examples/basic-example)
 * [Trading on Uniswap](./examples/uniswap-example)
-* [Lending on Aave](./examples/aave-example) 
+* [Lending on Aave](./examples/aave-example)
+
+### Tokenization
+* [ERC721](./examples/nft-example/erc721.ts)
+* [ERC1155](./examples/nft-example/erc1155.ts)
+* [CustomToken](./examples/nft-example/custom-token.ts)

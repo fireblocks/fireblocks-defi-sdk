@@ -1,10 +1,9 @@
 import * as fs from "fs";
 import {BridgeParams, Chain, CustomToken, FireblocksSDK} from "fireblocks-defi-sdk";
 import {ABIStructure} from "../../dist/types/abi";
-import {CUSTOM_ABI} from "../../src/constants/base-abis";
 
 const CHAIN = Chain.KOVAN;
-const CONTRACT_ADDRESS = "0x73544d05210be973901ea33034191a61969f9271";
+const CONTRACT_ADDRESS = "";
 const FIREBLOCKS_API_SECRET_PATH = '../../../fireblocks.key';
 const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
@@ -17,7 +16,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Fireblocks Initialization **/
 
-        // Read file containing you Fireblocks Api Seacret Key
+    // Read file containing your Fireblocks Api Secret Key
     const apiSecret = fs.readFileSync(FIREBLOCKS_API_SECRET_PATH, "utf8");
 
     // Read file containing you Fireblocks Api Key
@@ -41,16 +40,17 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
 
     /** Read/Write Examples **/
 
-    const RECEIVER_ADDRESS = '';
-    const ADDRESS_INTERFACE = '';
+    const FROM_ADDRESS = '';
+    const TO_ADDRESS = '';
+    const TOKEN_ID = 0;
 
-    // Perform a read action supportInterface uses you Fireblocks Vault address (address is optional)
-    const supportInterface = await customToken.callReadFunction('supportsInterface', ADDRESS_INTERFACE);
-    console.log('supportInterface response', supportInterface);
+    // Perform read via balanceOf 
+    const balanceOf = await customToken.callReadFunction('balanceOf');
+    console.log('balanceOf response', balanceOf);
 
 
-    // Perform write action transferFrom from Fireblocks vault to an address
-    const transferFrom = await customToken.callWriteFunction('transferOwnership', RECEIVER_ADDRESS);
+    // Perform write via transferFrom
+    const transferFrom = await customToken.callWriteFunction('transferFrom', FROM_ADDRESS, TO_ADDRESS, TOKEN_ID);
     console.log('transferFrom response', transferFrom);
 
 
