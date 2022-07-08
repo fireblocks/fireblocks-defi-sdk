@@ -41,7 +41,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
     /** Read/Write Examples **/
 
     // Perform a read balanceOf action
-    const balanceOf = await erc1155.balanceOf(TOKEN_ID);
+    const balance = await erc1155.balanceOf(TOKEN_ID);
     console.log('balanceOf response', balanceOf);
 
     // Perform write setApprovalForAll action
