@@ -44,7 +44,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
     const TO_ADDRESS = '';
     const TOKEN_ID = 0;
 
-    // Perform a read action supportInterface
+    // Perform read via balanceOf 
     const balanceOf = await customToken.callReadFunction('balanceOf');
     console.log('balanceOf response', balanceOf);
 
