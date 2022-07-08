@@ -49,7 +49,7 @@ const FIREBLOCKS_API_KEY_PATH = '../../api-client-key.txt';
     console.log('balanceOf response', balanceOf);
 
 
-    // Perform write action transferOwnership
+    // Perform write via transferFrom
     const transferFrom = await customToken.callWriteFunction('transferFrom', FROM_ADDRESS, TO_ADDRESS, TOKEN_ID);
     console.log('transferFrom response', transferFrom);
 
