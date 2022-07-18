@@ -1,4 +1,4 @@
-## The Official Javascript & Typescript SDK for Fireblocks API
+## The Official Javascript & Typescript SDK for Fireblocks Defi and NFT API
 [![npm version](https://badge.fury.io/js/fireblocks-defi-sdk.svg)](https://badge.fury.io/js/fireblocks-defi-sdk)
 
 # Fireblocks DeFi SDK
