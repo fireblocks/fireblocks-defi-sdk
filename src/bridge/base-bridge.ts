@@ -2,7 +2,7 @@ import { TransactionResponse, TransactionStatus } from "fireblocks-sdk";
 import { BridgeParams } from "../interfaces/bridge-params";
 import { Chain } from "../interfaces/chain";
 
-const CHAIN_TO_ASSET_ID: {[key: string]: string } = {
+export const CHAIN_TO_ASSET_ID: {[key: string]: string } = {
     [Chain.MAINNET]: 'ETH',
     [Chain.ROPSTEN]: 'ETH_TEST',
     [Chain.GOERLI]: 'ETH_TEST3',
@@ -13,7 +13,7 @@ const CHAIN_TO_ASSET_ID: {[key: string]: string } = {
     [Chain.MUMBAI]: 'MATIC_POLYGON_MUMBAI',
 }
 
-const CHAIN_IDS = {
+export const CHAIN_IDS = {
     [Chain.MAINNET]: 1,
     [Chain.ROPSTEN]: 3,
     [Chain.GOERLI]: 5,

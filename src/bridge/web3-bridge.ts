@@ -4,7 +4,7 @@ import * as BN from "bn.js";
 import { formatEther, formatUnits } from "ethers/lib/utils";
 import { TypedDataUtils } from "eth-sig-util";
 
-interface TransactionConfig {
+export interface TransactionConfig {
     from?: string | number;
     to?: string;
     value?: number | string | BN;
@@ -51,10 +51,9 @@ export class Web3Bridge extends BaseBridge {
                 console.log("error:" ,err);
             }
             await new Promise(r => setTimeout(r, 1000));
-        };
+        }
         
-        if(currentStatus != TransactionStatus.COMPLETED)
-        {
+        if(currentStatus != TransactionStatus.COMPLETED) {
             throw new Error(`Transaction was not completed successfully. Final Status: ${currentStatus}`);
         }
 
@@ -76,8 +75,6 @@ export class Web3Bridge extends BaseBridge {
                 type: PeerType.VAULT_ACCOUNT,
                 id: this.params.vaultAccountId
             },
-            gasPrice: transaction.gasPrice != undefined ? formatUnits(transaction.gasPrice.toString(), "gwei") : undefined,
-            gasLimit: transaction.gas?.toString(),
             destination: {
                 type: this.params.externalWalletId ? PeerType.EXTERNAL_WALLET : PeerType.ONE_TIME_ADDRESS,
                 id: this.params.externalWalletId,

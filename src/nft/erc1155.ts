@@ -26,31 +26,26 @@ export class ERC1155 extends BaseToken {
      * @param data
      * @param note
      */
-    safeBatchTransferFrom(fromAddress: string, toAddress: string, tokenIds: number[], values: number[],
-                          data: Uint8Array = null, note: string = ""): Promise<CreateTransactionResponse> {
-        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress)
+    async safeBatchTransferFrom(toAddress: string, tokenIds: number[], values: number[],
+                                data: Uint8Array = null, note: string = "", fromAddress?: string): Promise<CreateTransactionResponse> {
+        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress || await this.getAddress())
         const checkedToAddress = Web3.utils.toChecksumAddress(toAddress)
 
         if (tokenIds?.length != values?.length) {
             throw new Error('Length of token_ids and values must match!');
         }
+        console.log('safeBatchTransferFrom', checkedFromAddress, checkedToAddress, tokenIds, values, data || new Uint8Array());
 
-        if (data) {
-            return this.submitTransaction(this.buildTransaction("safeTransferFrom",
-                checkedFromAddress,
-                checkedToAddress,
-                tokenIds,
-                values,
-                data
-            ), note)
-        }
-
-        return this.submitTransaction(this.buildTransaction("safeTransferFrom",
+        let transactionData;
+        transactionData = await this.buildTransaction("safeTransferFrom",
             checkedFromAddress,
             checkedToAddress,
             tokenIds,
-            values
-        ), note)
+            values,
+            data || new Uint8Array(),
+        )
+        console.log('transactionData', transactionData);
+        return this.submitTransaction(transactionData, note)
     }
 
     /**
@@ -61,22 +56,25 @@ export class ERC1155 extends BaseToken {
      * @param data - Send additional data (bytes) only if required by contract.
      * @param note
      */
-    safeTransferFrom(fromAddress: string, toAddress: string, tokenId: number, data: Uint8Array = null, note: string = ""): Promise<CreateTransactionResponse> {
-        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress)
+    async safeTransferFrom(toAddress: string, tokenId: number, data: Uint8Array = null, note: string = "", fromAddress?: string): Promise<CreateTransactionResponse> {
+        const checkedFromAddress = Web3.utils.toChecksumAddress(fromAddress || await this.getAddress())
         const checkedToAddress = Web3.utils.toChecksumAddress(toAddress)
+        let transactionData
         if (data) {
-            return this.submitTransaction(this.buildTransaction("safeTransferFrom",
+            transactionData = await this.buildTransaction("safeTransferFrom",
                 checkedFromAddress,
                 checkedToAddress,
                 tokenId,
                 data
-            ), note);
+            )
+        } else {
+            transactionData = await this.buildTransaction("safeTransferFrom",
+                checkedFromAddress,
+                checkedToAddress,
+                tokenId
+            )
         }
-        return this.submitTransaction(this.buildTransaction("safeTransferFrom",
-            checkedFromAddress,
-            checkedToAddress,
-            tokenId
-        ), note);
+        return this.submitTransaction(transactionData, note);
     }
 
 
@@ -86,9 +84,10 @@ export class ERC1155 extends BaseToken {
      * @param isApproved - True to permit, False to revoke
      * @param notes - (Optional) Add a note to the transaction
      */
-    setApprovalForAll(operatorAddress: string, isApproved: boolean, notes?: string): Promise<CreateTransactionResponse> {
+    async setApprovalForAll(operatorAddress: string, isApproved: boolean, notes?: string): Promise<CreateTransactionResponse> {
         const checkedOperatorAddress = Web3.utils.toChecksumAddress(operatorAddress)
-        return this.submitTransaction(this.buildTransaction("setApprovalForAll", checkedOperatorAddress, isApproved), notes);
+        const transactionData = await this.buildTransaction("setApprovalForAll", checkedOperatorAddress, isApproved)
+        return this.submitTransaction(transactionData, notes);
     }
 
 
@@ -98,20 +97,18 @@ export class ERC1155 extends BaseToken {
      * Checks if contract supports a certain interface.
      * @param interfaceId - (Optional) The interface id. "0x80ac58cd" is ERC721 interface id. "0xd9b67a26" is ERC1155
      */
-    supportsInterface(interfaceId: string = ""): boolean {
-        if (interfaceId === '') {
-            interfaceId = "0xd9b67a26"
-        }
+    supportsInterface(interfaceId: string = '0xd9b67a26'): Promise<boolean> {
         return this.callView("supportsInterface", interfaceId);
     }
 
     /**
      *
+     * @param tokenId
      * @param ownerAddress
      */
-    balanceOf(ownerAddress: string): number {
-        const ownerCheckedAddress = Web3.utils.toChecksumAddress(ownerAddress)
-        return this.callView("balanceOf", ownerCheckedAddress);
+    async balanceOf(tokenId: number, ownerAddress?: string): Promise<number> {
+        const ownerCheckedAddress = Web3.utils.toChecksumAddress(ownerAddress || await this.getAddress())
+        return this.callView("balanceOf", ownerCheckedAddress, tokenId);
     }
 
     /**
@@ -119,8 +116,9 @@ export class ERC1155 extends BaseToken {
      * @param ownersList -  A list of addresses
      * @param idList - A list of token Ids
      */
-    balanceOfBatch(ownersList: string[], idList: string[]): number[] {
-        const checkedAddresses = ownersList.map(address => Web3.utils.toChecksumAddress(address));
+    async balanceOfBatch(idList: number[], ownersList?: string[]): Promise<number[]> {
+        const checkedAddresses = ownersList?.map(address => Web3.utils.toChecksumAddress(address)) ||
+            idList.map(async (res) => Web3.utils.toChecksumAddress(await this.getAddress()));
         return this.callView("balanceOfBatch", checkedAddresses, idList)
     }
 
@@ -131,16 +129,17 @@ export class ERC1155 extends BaseToken {
      * @param operatorAddress - Address of the meant to be operator.
      * return: True whether operator is approved, False otherwise
      */
-    isApprovedForAll(ownerAddress: string, operatorAddress: string): boolean {
-        const ownerCheckedAddress = Web3.utils.toChecksumAddress(ownerAddress)
-        const operatorCheckedAddress = Web3.utils.toChecksumAddress(operatorAddress)
+    async isApprovedForAll(operatorAddress: string, ownerAddress?: string): Promise<boolean> {
+        const ownerCheckedAddress = Web3.utils.toChecksumAddress(ownerAddress || await this.getAddress());
+        const operatorCheckedAddress = Web3.utils.toChecksumAddress(operatorAddress);
         return this.callView("isApprovedForAll", ownerCheckedAddress, operatorCheckedAddress);
     }
 
     /**
-     * @param uri_id - URI id of a contract
+     * Returns Token URI
+     * @param tokenId
      */
-    uri(uri_id: number): string {
-        return this.callView("uri", uri_id)
+    uri(tokenId: number): Promise<string> {
+        return this.callView("uri", tokenId)
     }
 }

@@ -3,22 +3,33 @@ import {ethers} from "ethers";
 import {Web3Bridge} from "../bridge/web3-bridge";
 import {CreateTransactionResponse} from "fireblocks-sdk";
 import {ContractFunction} from "@ethersproject/contracts";
+import {ABIStructure} from "../types/abi";
+import {CHAIN_TO_ASSET_ID} from "../bridge/base-bridge";
+
 
 export class BaseToken {
-    private _allFunctions: { [key: string]: ContractFunction | any };
+    private readonly _allFunctions: { [key: string]: ContractFunction | any };
     private readonly bridgeParams: BridgeParams;
-    private readonly contract: ethers.Contract;
+    contract: ethers.Contract;
     web3Bridge: Web3Bridge;
-    contractABI: string;
+    contractABI: ABIStructure;
+    address: string;
 
-    constructor(bridgeParams: BridgeParams, contractABI) {
+    constructor(bridgeParams: BridgeParams, contractABI: ABIStructure) {
         if (!bridgeParams.chain) {
             throw new Error('Token must contain chain');
         }
-        this.bridgeParams = bridgeParams;
-        this.web3Bridge = new Web3Bridge(this.bridgeParams);
+
+        if (!bridgeParams.contractAddress) {
+            throw new Error('Token must contain contract address');
+        }
+
+        this.bridgeParams = {...bridgeParams, externalWalletId: bridgeParams.contractAddress};
+        this.web3Bridge = new Web3Bridge(bridgeParams);
         this.contractABI = contractABI
-        this.contract = new ethers.Contract(this.bridgeParams.externalWalletId, this.contractABI, ethers.getDefaultProvider(this.bridgeParams.chain));
+        this.contract = new ethers.Contract(this.bridgeParams.contractAddress,
+            JSON.stringify(this.contractABI),
+            ethers.getDefaultProvider(this.bridgeParams.chain));
         this._allFunctions = this.contract.functions;
     }
 
@@ -28,8 +39,8 @@ export class BaseToken {
      * @param abiName - abi function name
      * @param args - function params
      */
-    buildTransaction(abiName: string, ...args) {
-        return this.contract[abiName].call(...args).buildTransaction();
+    async buildTransaction(abiName: string, ...args) {
+        return await this.contract.populateTransaction[abiName].call(this, ...args);
     }
 
     /**
@@ -37,13 +48,28 @@ export class BaseToken {
      * @param abiName
      * @param args
      */
-    callView(abiName: string, ...args) {
-        return this.contract[abiName]?.call(...args);
+    async callView(abiName: string, ...args): Promise<any> {
+        try {
+            const response = await this.contract.functions[abiName].call(this, ...args);
+            return response[0] ?? response;
+        } catch (e) {
+            throw new Error(e);
+        }
     }
 
+    /**
+     * Fetching Fireblocks default address using chain
+     */
+    async getAddress() {
+        if (!this.address) {
+            const res = await this.bridgeParams.fireblocksApiClient.getDepositAddresses(this.bridgeParams.vaultAccountId, CHAIN_TO_ASSET_ID[this.bridgeParams.chain]);
+            this.address = res?.length > 0 ? res.pop()?.address : null
+        }
+        return this.address
+    }
 
     /**
-     * Submit transaction using defi SDK
+     * Submit transaction using Fireblocks infrastructure
      * @param transactionData
      * @param notes - (Optional) Add a note to the transaction
      */
