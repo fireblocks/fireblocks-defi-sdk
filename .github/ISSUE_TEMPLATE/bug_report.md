@@ -24,7 +24,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Version:**
- - `fireblocks-sdk` version: [e.g. 1.7.0]
+ - `fireblocks-defi-sdk` version: [e.g. 1.7.0]
  - npm version:
  - node version:
 
