@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/fireblocks-defi-sdk.svg)](https://badge.fury.io/js/fireblocks-defi-sdk)
+
 # Fireblocks DeFi SDK
 
 Fireblocks DeFi SDK provides an interoperability layer between Fireblocks Smart Contract API and common DeFi libraries.
