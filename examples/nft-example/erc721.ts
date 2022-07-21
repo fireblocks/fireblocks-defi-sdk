@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import {BridgeParams, Chain, ERC721, FireblocksSDK} from "fireblocks-defi-sdk";
+import {BridgeParams, Chain, ERC721, FireblocksSDK} from "../../src";
 
 const CHAIN = Chain.KOVAN;
 const CONTRACT_ADDRESS = "";
