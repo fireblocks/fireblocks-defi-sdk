@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file. Dates are d
 
 #### [v1.2.0](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.0.0...v1.2.0)
 
-> 19 July 2022
+> 20 July 2022
 
-- NPM Package Deployment [`#5`](https://github.com/fireblocks/fireblocks-defi-sdk/pull/5)
+- release 1.2.0 [`c27a864`](https://github.com/fireblocks/fireblocks-defi-sdk/commit/c27a8649054ea92c13ae51ccf40617aa9f91d256)
 
 #### v1.0.0
 
