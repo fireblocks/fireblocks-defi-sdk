@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### [v1.2.1](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.0.0...v1.2.1)
+#### [v1.2.5](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.0.0...v1.2.5)
 
 > 22 July 2022
 
