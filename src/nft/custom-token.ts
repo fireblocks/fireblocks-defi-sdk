@@ -26,7 +26,7 @@ export class CustomToken extends BaseToken {
      * @param args - arguments for contract call (addresses should be wrapped with Web3.toChecksumAddress(address)
      */
     async callWriteFunction(abiFunctionName: string, notes: string, ...args): Promise<CreateTransactionResponse> {
-        const transactionData = await this.buildTransaction(abiFunctionName, ...args, notes);
+        const transactionData = await this.buildTransaction(abiFunctionName, ...args);
         return this.submitTransaction(transactionData, notes);
     }
 
