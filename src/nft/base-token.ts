@@ -29,7 +29,7 @@ export class BaseToken {
         this.contractABI = contractABI
         this.contract = new ethers.Contract(this.bridgeParams.contractAddress,
             JSON.stringify(this.contractABI),
-            ethers.getDefaultProvider(this.bridgeParams.chain));
+            this.bridgeParams.signerOrProvider ?? ethers.getDefaultProvider(this.bridgeParams.chain));
         this._allFunctions = this.contract.functions;
     }
 
