@@ -76,7 +76,7 @@ export class Web3Bridge extends BaseBridge {
                 id: this.params.vaultAccountId
             },
             destination: {
-                type: this.params.externalWalletId ? PeerType.EXTERNAL_WALLET : PeerType.ONE_TIME_ADDRESS,
+                type: this.params.externalWalletId ? PeerType.CONTRACT_WALLET : PeerType.ONE_TIME_ADDRESS,
                 id: this.params.externalWalletId,
                 oneTimeAddress: {
                     address: transaction.to
