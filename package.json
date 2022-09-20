@@ -30,6 +30,7 @@
     "ethers": "^5.5.1",
     "fireblocks-sdk": "^1.14.0",
     "node-fetch": "^2.6.7",
+    "web3": "^1.8.0",
     "web3-eth-contract": "^1.7.4"
   },
   "files": [
