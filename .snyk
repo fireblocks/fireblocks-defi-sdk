@@ -1,0 +1,17 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.22.1
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  'snyk:lic:npm:rlp:MPL-2.0':
+    - web3-eth-contract > web3-core > web3-core-requestmanager > web3-providers-ws > web3-core-helpers > web3-eth-iban > web3-utils > ethereumjs-util > rlp:
+        reason: None given
+        expires: '2022-10-20T10:59:05.290Z'
+  'snyk:lic:npm:ethereumjs-util:MPL-2.0':
+    - web3-eth-contract > web3-core > web3-core-requestmanager > web3-core-helpers > web3-eth-iban > web3-utils > ethereumjs-util:
+        reason: None given
+        expires: '2022-10-20T11:04:22.926Z'
+  'snyk:lic:npm:web3-eth-iban:LGPL-3.0':
+    - web3-eth-contract > web3-core-method > web3-core-helpers > web3-eth-iban:
+        reason: None given
+        expires: '2022-10-20T11:04:22.927Z'
+patch: {}

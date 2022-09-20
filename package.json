@@ -16,16 +16,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "link": "npm run build && cd dist && npm link"
+    "link": "npm run build && cd dist && npm link",
+    "snyk": "snyk test --fail-on=all --severity-threshold=high"
   },
   "dependencies": {
     "bn": "^1.0.5",
     "bn.js": "^5.1.3",
     "eth-sig-util": "^3.0.0",
     "ethers": "^5.5.1",
-    "fireblocks-sdk": "^1.5.11",
+    "fireblocks-sdk": "^1.14.0",
     "node-fetch": "^2.6.7",
-    "web3": "^1.7.3",
     "web3-eth-contract": "^1.7.4"
   },
   "files": [
