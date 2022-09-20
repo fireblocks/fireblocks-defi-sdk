@@ -16,8 +16,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "link": "npm run build && cd dist && npm link",
-    "snyk": "snyk test --fail-on=all --severity-threshold=high"
+    "link": "npm run build && cd dist && npm link"
+  },
+  "peerDependencies": {
+    "es5-ext": "1.5.0"
   },
   "dependencies": {
     "bn": "^1.0.5",
