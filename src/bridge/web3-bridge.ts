@@ -1,6 +1,7 @@
 import {
     CreateTransactionResponse,
     PeerType,
+    TransactionArguments,
     TransactionOperation,
     TransactionResponse,
     TransactionStatus
@@ -73,8 +74,7 @@ export class Web3Bridge extends BaseBridge {
         if (transaction.chainId && transaction.chainId != this.getChainId()) {
             throw new Error(`Chain ID of the transaction (${transaction.chainId}) does not match the chain ID of the connected account (${this.getChainId()})`);
         }
-
-        return this.params.fireblocksApiClient.createTransaction({
+        const txArguments: TransactionArguments = {
             operation: TransactionOperation.CONTRACT_CALL,
             assetId: this.assetId,
             source: {
@@ -84,16 +84,19 @@ export class Web3Bridge extends BaseBridge {
             destination: {
                 type: this.params.externalWalletId ? PeerType.CONTRACT : PeerType.ONE_TIME_ADDRESS,
                 id: this.params.externalWalletId,
-                oneTimeAddress: {
-                    address: transaction.to
-                }
             },
             note: txNote || '',
             amount: formatEther(transaction.value?.toString() || "0"),
             extraParameters: {
                 contractCallData: transaction.data
             }
-        });
+        }
+        if (transaction.to) {
+            txArguments.destination.oneTimeAddress = {
+                address: <string>transaction.to
+            }
+        }
+        return this.params.fireblocksApiClient.createTransaction(txArguments);
     }
 }
 

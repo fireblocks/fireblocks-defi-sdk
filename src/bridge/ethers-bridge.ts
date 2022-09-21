@@ -19,9 +19,6 @@ export class EthersBridge extends BaseBridge {
             destination: {
                 type: this.params.externalWalletId ? PeerType.CONTRACT : PeerType.ONE_TIME_ADDRESS,
                 id: this.params.externalWalletId,
-                oneTimeAddress: {
-                    address: <string>transaction.to
-                }
             },
             note: txNote || '',
             amount: formatEther(transaction.value?.toString() || "0"),
@@ -29,6 +26,11 @@ export class EthersBridge extends BaseBridge {
                 contractCallData: transaction.data
             }
         };
+        if (transaction.to) {
+            txArguments.destination.oneTimeAddress = {
+                address: <string>transaction.to
+            }
+        }
         return this.params.fireblocksApiClient.createTransaction(txArguments);
     }
 }
