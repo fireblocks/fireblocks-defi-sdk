@@ -1,8 +1,14 @@
-import { PeerType, TransactionOperation, CreateTransactionResponse, TransactionStatus, TransactionResponse } from "fireblocks-sdk";
-import { BaseBridge } from "./base-bridge";
+import {
+    CreateTransactionResponse,
+    PeerType,
+    TransactionOperation,
+    TransactionResponse,
+    TransactionStatus
+} from "fireblocks-sdk";
+import {BaseBridge} from "./base-bridge";
 import * as BN from "bn.js";
-import { formatEther, formatUnits } from "ethers/lib/utils";
-import { TypedDataUtils } from "eth-sig-util";
+import {formatEther} from "ethers/lib/utils";
+import {TypedDataUtils} from "eth-sig-util";
 
 export interface TransactionConfig {
     from?: string | number;
@@ -76,7 +82,7 @@ export class Web3Bridge extends BaseBridge {
                 id: this.params.vaultAccountId
             },
             destination: {
-                type: this.params.externalWalletId ? PeerType.CONTRACT_WALLET : PeerType.ONE_TIME_ADDRESS,
+                type: this.params.externalWalletId ? PeerType.CONTRACT : PeerType.ONE_TIME_ADDRESS,
                 id: this.params.externalWalletId,
                 oneTimeAddress: {
                     address: transaction.to
