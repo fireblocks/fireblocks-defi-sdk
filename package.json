@@ -1,6 +1,6 @@
 {
   "name": "fireblocks-defi-sdk",
-  "version": "1.2.5",
+  "version": "1.2.8",
   "description": "Fireblocks DeFi SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,11 +17,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "link": "npm run build && cd dist && npm link",
-    "preinstall": "npx npm-force-resolutions"
+    "link": "npm run build && cd dist && npm link"
   },
   "overrides": {
-    "es5-ext": "0.10.50"
+    "es5-ext": "0.10.50",
+    "parse-url": ""
   },
   "dependencies": {
     "bn": "^1.0.5",
