@@ -1,15 +1,15 @@
 import {
-    CreateTransactionResponse,
     PeerType,
-    TransactionArguments,
     TransactionOperation,
+    CreateTransactionResponse,
+    TransactionStatus,
     TransactionResponse,
-    TransactionStatus
+    TransactionArguments
 } from "fireblocks-sdk";
-import {BaseBridge} from "./base-bridge";
+import { BaseBridge } from "./base-bridge";
 import * as BN from "bn.js";
-import {formatEther} from "ethers/lib/utils";
-import {TypedDataUtils} from "eth-sig-util";
+import { formatEther, formatUnits } from "ethers/lib/utils";
+import { TypedDataUtils } from "eth-sig-util";
 
 export interface TransactionConfig {
     from?: string | number;
@@ -44,7 +44,7 @@ export class Web3Bridge extends BaseBridge {
                 }
             }
         };
-    
+
         const { id, status } = await this.params.fireblocksApiClient.createTransaction(transactionParams);
 
         let txInfo: TransactionResponse;
@@ -53,18 +53,17 @@ export class Web3Bridge extends BaseBridge {
         while(!BaseBridge.finalTransactionStates.includes(currentStatus)) {
             try {
                 txInfo = await this.params.fireblocksApiClient.getTransactionById(id);
-                currentStatus = txInfo.status;    
+                currentStatus = txInfo.status;
             } catch (err) {
                 console.log("error:" ,err);
             }
             await new Promise(r => setTimeout(r, 1000));
         }
-        
+
         if(currentStatus != TransactionStatus.COMPLETED) {
             throw new Error(`Transaction was not completed successfully. Final Status: ${currentStatus}`);
         }
 
-        
         const sig = txInfo.signedMessages[0].signature;
         const v = 27 + sig.v;
         return "0x" + sig.r + sig.s + v.toString(16);
@@ -82,7 +81,7 @@ export class Web3Bridge extends BaseBridge {
                 id: this.params.vaultAccountId
             },
             destination: {
-                type: this.params.externalWalletId ? PeerType.CONTRACT : PeerType.ONE_TIME_ADDRESS,
+                type: this.params.externalWalletId ? PeerType.EXTERNAL_WALLET : PeerType.ONE_TIME_ADDRESS,
                 id: this.params.externalWalletId,
             },
             note: txNote || '',
@@ -90,7 +89,7 @@ export class Web3Bridge extends BaseBridge {
             extraParameters: {
                 contractCallData: transaction.data
             }
-        }
+        };
         if (transaction.to) {
             txArguments.destination.oneTimeAddress = {
                 address: <string>transaction.to
