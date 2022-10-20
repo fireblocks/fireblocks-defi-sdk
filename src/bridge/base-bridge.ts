@@ -24,7 +24,7 @@ export const CHAIN_IDS = {
     [Chain.BSC]: 56,
     [Chain.BSC_TEST]: 97,
     [Chain.POLYGON]: 137,
-    [Chain.ARBITRUM]: '42161',
+    [Chain.ARBITRUM]: 42161,
     [Chain.MUMBAI]: 80001,
 }
 
