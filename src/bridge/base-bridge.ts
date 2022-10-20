@@ -12,6 +12,7 @@ export const CHAIN_TO_ASSET_ID: {[key: string]: string } = {
     [Chain.POLYGON]: 'MATIC_POLYGON',
     [Chain.MUMBAI]: 'MATIC_POLYGON_MUMBAI',
     [Chain.RINKEBY]: 'ETH_TEST4',
+    [Chain.ARBITRUM]: 'ETH-AETH'
 }
 
 export const CHAIN_IDS = {
@@ -23,6 +24,7 @@ export const CHAIN_IDS = {
     [Chain.BSC]: 56,
     [Chain.BSC_TEST]: 97,
     [Chain.POLYGON]: 137,
+    [Chain.ARBITRUM]: 42161,
     [Chain.MUMBAI]: 80001,
 }
 
