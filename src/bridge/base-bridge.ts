@@ -12,8 +12,10 @@ export const CHAIN_TO_ASSET_ID: {[key: string]: string } = {
     [Chain.POLYGON]: 'MATIC_POLYGON',
     [Chain.MUMBAI]: 'MATIC_POLYGON_MUMBAI',
     [Chain.RINKEBY]: 'ETH_TEST4',
-    [Chain.ARBITRUM]: 'ETH-AETH'
-}
+    [Chain.ARBITRUM]: 'ETH-AETH',
+    [Chain.FANTOM]: "FTM_FANTOM",
+    [Chain.AVALANCHE]: "AVAX",
+};
 
 export const CHAIN_IDS = {
     [Chain.MAINNET]: 1,
@@ -26,8 +28,9 @@ export const CHAIN_IDS = {
     [Chain.POLYGON]: 137,
     [Chain.ARBITRUM]: 42161,
     [Chain.MUMBAI]: 80001,
-}
-
+    [Chain.FANTOM]: 250,
+    [Chain.AVALANCHE]: 43114,
+};
 
 export abstract class BaseBridge {
     readonly assetId: string;
@@ -36,29 +39,29 @@ export abstract class BaseBridge {
         TransactionStatus.FAILED,
         TransactionStatus.CANCELLED,
         TransactionStatus.BLOCKED,
-        TransactionStatus.REJECTED
+        TransactionStatus.REJECTED,
     ];
- 
-     constructor(readonly params: BridgeParams) {
-         const chain = params.chain || Chain.MAINNET;
-         this.assetId = CHAIN_TO_ASSET_ID[chain];
-     }
 
-     async getDepositAddress(): Promise<string> {
-         const depositAddresses = await this.params.fireblocksApiClient.getDepositAddresses(this.params.vaultAccountId, this.assetId);
-         return depositAddresses[0].address;
-     }
+    constructor(readonly params: BridgeParams) {
+        const chain = params.chain || Chain.MAINNET;
+        this.assetId = CHAIN_TO_ASSET_ID[chain];
+    }
 
-     getChainId(): number {
-         return CHAIN_IDS[this.params.chain];
-     }
+    async getDepositAddress(): Promise<string> {
+        const depositAddresses = await this.params.fireblocksApiClient.getDepositAddresses(this.params.vaultAccountId, this.assetId);
+        return depositAddresses[0].address;
+    }
 
-     async waitForTxHash(txId: string, timeoutMs?: number): Promise<string> {
-         return Promise.race([
-             (async () => {
+    getChainId(): number {
+        return CHAIN_IDS[this.params.chain];
+    }
+
+    async waitForTxHash(txId: string, timeoutMs?: number): Promise<string> {
+        return Promise.race([
+            (async () => {
                 let status: TransactionStatus;
                 let txInfo: TransactionResponse;
-                while(!BaseBridge.finalTransactionStates.includes(status)) {
+                while (!BaseBridge.finalTransactionStates.includes(status)) {
                     try {
                         txInfo = await this.params.fireblocksApiClient.getTransactionById(txId);
                         status = txInfo.status;
@@ -69,19 +72,18 @@ export abstract class BaseBridge {
                         return txInfo.txHash;
                     }
                     await new Promise(r => setTimeout(r, 1000));
-                };
-                
-                if(status != TransactionStatus.COMPLETED)
-                {
+                }
+
+                if (status != TransactionStatus.COMPLETED) {
                     throw `Transaction was not completed successfully. Final Status: ${status}`;
                 }
                 return txInfo.txHash;
             })(),
             new Promise<string>((resolve, reject) => {
-                if(timeoutMs) {
-                    setTimeout(() => reject(`waitForTxCompletion() for txId ${txId} timed out`), timeoutMs)
+                if (timeoutMs) {
+                    setTimeout(() => reject(`waitForTxCompletion() for txId ${txId} timed out`), timeoutMs);
                 }
             })
         ]);
-     }
+    }
 }

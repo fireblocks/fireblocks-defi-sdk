@@ -9,4 +9,6 @@ export enum Chain {
     MUMBAI = "polygon_test",
     RINKEBY = "rinkeby",
     ARBITRUM = "arbitrum",
+    AVALANCHE = "avalanche",
+    FANTOM = "fantom",
 }
