@@ -1,6 +1,6 @@
 {
   "name": "fireblocks-defi-sdk",
-  "version": "1.2.8",
+  "version": "1.2.11",
   "description": "Fireblocks DeFi SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
