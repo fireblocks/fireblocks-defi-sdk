@@ -2,11 +2,11 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### [v1.2.11](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.2.9...v1.2.11)
+#### [v1.2.12](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.2.9...v1.2.12)
 
 > 6 November 2022
 
-- Add Snyk workflow [`#19`](https://github.com/fireblocks/fireblocks-defi-sdk/pull/19)
+- Add Avalanche & Fantom and fix indentation [`#2`](https://github.com/fireblocks/fireblocks-defi-sdk/pull/2)
 
 #### [v1.2.9](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.2.3...v1.2.9)
 
