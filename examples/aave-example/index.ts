@@ -1,12 +1,10 @@
-
-import { FireblocksSDK } from "fireblocks-sdk";
-import { EthersBridge, Chain } from "fireblocks-defi-sdk";
+import {EthersBridge, Chain, FireblocksSDK} from "fireblocks-defi-sdk";
 import * as fs from "fs";
-import { ethers, PopulatedTransaction } from "ethers";
+import {ethers, PopulatedTransaction} from "ethers";
 import LendingPoolAddressesProviderABI from "./abi/LendingPoolAddressesProvider.json"
 import LendingPoolABI from "./abi/LendingPool.json"
 import * as inquirer from "inquirer";
-import { formatEther, parseEther } from "ethers/lib/utils";
+import {formatEther, parseEther} from "ethers/lib/utils";
 
 
 const chain = Chain[process.env.ETH_CHAIN] || Chain.ROPSTEN;
@@ -20,7 +18,7 @@ async function depositEthToAave(bridge: EthersBridge, ethAmount: string) {
     };
 
     // Retrieve the LendingPool address
-    const lpAddressProviderContract =  new ethers.Contract(
+    const lpAddressProviderContract = new ethers.Contract(
         lpAddressProviderAddress[chain],
         LendingPoolAddressesProviderABI,
         provider)
@@ -34,7 +32,7 @@ async function depositEthToAave(bridge: EthersBridge, ethAmount: string) {
 
     const aaveETH = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
 
-    const tx = await lpContract.populateTransaction.deposit(aaveETH, amountInWei, 0, { value: amountInWei });
+    const tx = await lpContract.populateTransaction.deposit(aaveETH, amountInWei, 0, {value: amountInWei});
 
     await processTransaction(bridge, tx, `Deposit ${ethAmount} ETH to Aave`);
 }
@@ -51,11 +49,11 @@ async function processTransaction(bridge: EthersBridge, tx: PopulatedTransaction
 }
 
 
-(async function() {
+(async function () {
     const apiSecret = fs.readFileSync(process.env.FIREBLOCKS_API_SECRET_PATH, "utf8");
     const fireblocksApiClient = new FireblocksSDK(apiSecret, process.env.FIREBLOCKS_API_KEY, process.env.FIREBLOCKS_API_BASE_URL);
 
-    const bridge = new EthersBridge({ 
+    const bridge = new EthersBridge({
         fireblocksApiClient,
         vaultAccountId: process.env.FIREBLOCKS_SOURCE_VAULT_ACCOUNT || "0",
         externalWalletId: process.env.FIREBLOCKS_EXTERNAL_WALLET,
@@ -66,7 +64,7 @@ async function processTransaction(bridge: EthersBridge, tx: PopulatedTransaction
     const currentEthAmount = formatEther(await provider.getBalance(walletAddress));
 
     console.log(`Current ETH amount in your wallet: ` + currentEthAmount);
-    const { ethAmountToDeposit } = await inquirer.prompt<any>({
+    const {ethAmountToDeposit} = await inquirer.prompt<any>({
         type: "input",
         name: "ethAmountToDeposit",
         default: 0,
@@ -75,7 +73,7 @@ async function processTransaction(bridge: EthersBridge, tx: PopulatedTransaction
 
     await depositEthToAave(bridge, ethAmountToDeposit);
 
-}()).catch(err=> {
+}()).catch(err => {
     console.log("error", err);
     process.exit(1);
 });

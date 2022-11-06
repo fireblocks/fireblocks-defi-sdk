@@ -2,30 +2,34 @@ import { TransactionResponse, TransactionStatus } from "fireblocks-sdk";
 import { BridgeParams } from "../interfaces/bridge-params";
 import { Chain } from "../interfaces/chain";
 
-const CHAIN_TO_ASSET_ID: { [key: string]: string } = {
-    [Chain.MAINNET]: "ETH",
-    [Chain.ROPSTEN]: "ETH_TEST",
-    [Chain.GOERLI]: "ETH_TEST3",
-    [Chain.KOVAN]: "ETH_TEST2",
-    [Chain.BSC]: "BNB_BSC",
-    [Chain.BSC_TEST]: "BNB_TEST",
-    [Chain.POLYGON]: "MATIC_POLYGON",
+export const CHAIN_TO_ASSET_ID: {[key: string]: string } = {
+    [Chain.MAINNET]: 'ETH',
+    [Chain.ROPSTEN]: 'ETH_TEST',
+    [Chain.GOERLI]: 'ETH_TEST3',
+    [Chain.KOVAN]: 'ETH_TEST2',
+    [Chain.BSC]: 'BNB_BSC',
+    [Chain.BSC_TEST]: 'BNB_TEST',
+    [Chain.POLYGON]: 'MATIC_POLYGON',
+    [Chain.MUMBAI]: 'MATIC_POLYGON_MUMBAI',
+    [Chain.RINKEBY]: 'ETH_TEST4',
+    [Chain.ARBITRUM]: 'ETH-AETH',
     [Chain.FANTOM]: "FTM_FANTOM",
     [Chain.AVALANCHE]: "AVAX",
-    [Chain.MUMBAI]: "MATIC_POLYGON_MUMBAI",
 };
 
-const CHAIN_IDS = {
+export const CHAIN_IDS = {
     [Chain.MAINNET]: 1,
     [Chain.ROPSTEN]: 3,
+    [Chain.RINKEBY]: 4,
     [Chain.GOERLI]: 5,
     [Chain.KOVAN]: 42,
     [Chain.BSC]: 56,
     [Chain.BSC_TEST]: 97,
     [Chain.POLYGON]: 137,
+    [Chain.ARBITRUM]: 42161,
+    [Chain.MUMBAI]: 80001,
     [Chain.FANTOM]: 250,
     [Chain.AVALANCHE]: 43114,
-    [Chain.MUMBAI]: 80001,
 };
 
 export abstract class BaseBridge {
@@ -44,11 +48,7 @@ export abstract class BaseBridge {
     }
 
     async getDepositAddress(): Promise<string> {
-        const depositAddresses =
-            await this.params.fireblocksApiClient.getDepositAddresses(
-                this.params.vaultAccountId,
-                this.assetId
-            );
+        const depositAddresses = await this.params.fireblocksApiClient.getDepositAddresses(this.params.vaultAccountId, this.assetId);
         return depositAddresses[0].address;
     }
 
@@ -63,9 +63,7 @@ export abstract class BaseBridge {
                 let txInfo: TransactionResponse;
                 while (!BaseBridge.finalTransactionStates.includes(status)) {
                     try {
-                        txInfo = await this.params.fireblocksApiClient.getTransactionById(
-                            txId
-                        );
+                        txInfo = await this.params.fireblocksApiClient.getTransactionById(txId);
                         status = txInfo.status;
                     } catch (err) {
                         console.error(err);
@@ -73,7 +71,7 @@ export abstract class BaseBridge {
                     if (txInfo.txHash) {
                         return txInfo.txHash;
                     }
-                    await new Promise((r) => setTimeout(r, 1000));
+                    await new Promise(r => setTimeout(r, 1000));
                 }
 
                 if (status != TransactionStatus.COMPLETED) {
@@ -83,12 +81,9 @@ export abstract class BaseBridge {
             })(),
             new Promise<string>((resolve, reject) => {
                 if (timeoutMs) {
-                    setTimeout(
-                        () => reject(`waitForTxCompletion() for txId ${txId} timed out`),
-                        timeoutMs
-                    );
+                    setTimeout(() => reject(`waitForTxCompletion() for txId ${txId} timed out`), timeoutMs);
                 }
-            }),
+            })
         ]);
     }
 }
