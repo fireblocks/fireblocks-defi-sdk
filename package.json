@@ -15,8 +15,8 @@
     "url": "https://github.com/fireblocks/fireblocks-defi-sdk.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
+    "prepare": "npm run build",
     "link": "npm run build && cd dist && npm link"
   },
   "overrides": {
