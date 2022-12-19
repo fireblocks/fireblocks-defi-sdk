@@ -2,8 +2,8 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### v1.2.14
+#### v1.2.15
 
-> 14 November 2022
+> 19 December 2022
 
-- update package conf files [`dac08c6`](https://github.com/fireblocks/fireblocks-defi-sdk/commit/dac08c663f47daf60d09348360153c4795ef9cf8)
+- fixed Polygon chain name to correct name [`4a4e680`](https://github.com/fireblocks/fireblocks-defi-sdk/commit/4a4e680aca9473c52af4c7d994ab2c0652951161)
