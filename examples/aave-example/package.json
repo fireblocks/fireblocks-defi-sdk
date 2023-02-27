@@ -12,7 +12,7 @@
   "dependencies": {
     "ethers": "^5.5.1",
     "fireblocks-defi-sdk": "file:../..",
-    "fireblocks-sdk": "^1.5.11",
+    "fireblocks-sdk": "^4.0.0",
     "inquirer": "^7.3.3"
   }
 }
