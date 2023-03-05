@@ -1,5 +1,10 @@
 [![npm version](https://badge.fury.io/js/fireblocks-defi-sdk.svg)](https://badge.fury.io/js/fireblocks-defi-sdk)
 
+### Deprecation Notice ⚠️
+
+This SDK is deprecated. We recommend Fireblocks users to work with the new [Fireblocks Web3 Provider](https://github.com/fireblocks/fireblocks-web3-provider).\
+In the coming months this repository will be moved to archive.
+
 # Fireblocks DeFi SDK
 
 Fireblocks DeFi SDK provides an interoperability layer between Fireblocks Smart Contract API and common DeFi libraries.
