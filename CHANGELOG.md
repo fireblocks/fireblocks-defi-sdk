@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v1.2.17](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.2.16...v1.2.17)
+
+> 3 April 2023
+
+- Update matic mumbai name [`#28`](https://github.com/fireblocks/fireblocks-defi-sdk/pull/28)
+
 #### [v1.2.16](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.2.15...v1.2.16)
 
 > 27 February 2023
