@@ -6,7 +6,7 @@ export enum Chain {
     BSC = "bsc",
     BSC_TEST = "bsc_test",
     POLYGON = "matic",
-    MUMBAI = "polygon_test",
+    MUMBAI = "maticmum",
     RINKEBY = "rinkeby",
     ARBITRUM = "arbitrum",
     AVALANCHE = "avalanche",
