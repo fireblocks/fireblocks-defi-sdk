@@ -1,4 +1,4 @@
-# Fireblocks DeFi SDK - Uniswap Example
+# Fireblocks DeFi SDK - Aave Example
 
 This example demonstrates interaction with Aave, a decentralized lending platform, using Fireblocks DeFi SDK.
 
