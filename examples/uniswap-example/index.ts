@@ -7,7 +7,7 @@ import * as fs from "fs";
 import { abi as uniswapRouterV2ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json';
 import { formatEther, parseEther } from "ethers/lib/utils";
 import * as inquirer from "inquirer";
-​
+
 const chain = Chain[process.env.ETH_CHAIN || "ROPSTEN"];    
 const chainId = ChainId[process.env.ETH_CHAIN || "ROPSTEN"];
 const provider = ethers.getDefaultProvider(chain);
@@ -25,7 +25,7 @@ async function swapEthToDai(bridge: EthersBridge, amountInEth: string, recipient
 
     const weth = WETH[chainId];    
     const pair = await Fetcher.fetchPairData(dai, weth);
-​
+
     const route = new Route([pair], ETHER)
     const amountIn = parseEther(amountInEth).toString();
     const trade = new Trade(route, CurrencyAmount.ether(amountIn), TradeType.EXACT_INPUT);

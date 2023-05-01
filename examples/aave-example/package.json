@@ -10,9 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ethers": "^5.5.1",
+    "ethers": "^5.7.2",
     "fireblocks-defi-sdk": "file:../..",
-    "fireblocks-sdk": "^1.5.11",
     "inquirer": "^7.3.3"
   }
 }
