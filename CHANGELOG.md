@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v1.2.18](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.2.17...v1.2.18)
+
+> 1 May 2023
+
+- Snyk OSS Vulnerabilities [`#30`](https://github.com/fireblocks/fireblocks-defi-sdk/pull/30)
+
 #### [v1.2.17](https://github.com/fireblocks/fireblocks-defi-sdk/compare/v1.2.16...v1.2.17)
 
 > 3 April 2023
