@@ -1,0 +1,26 @@
+diff --git a/node_modules/@ethersproject/providers/lib.esm/ankr-provider.js b/node_modules/@ethersproject/providers/lib.esm/ankr-provider.js
+index 5cd2636..34c1aa8 100644
+--- a/node_modules/@ethersproject/providers/lib.esm/ankr-provider.js
++++ b/node_modules/@ethersproject/providers/lib.esm/ankr-provider.js
+@@ -16,6 +16,8 @@ function getHost(name) {
+             return "rpc.ankr.com/eth_goerli/";
+         case "matic":
+             return "rpc.ankr.com/polygon/";
++        case "maticmum":
++            return "rpc.ankr.com/polygon_mumbai/";
+         case "arbitrum":
+             return "rpc.ankr.com/arbitrum/";
+     }
+diff --git a/node_modules/@ethersproject/providers/lib/ankr-provider.js b/node_modules/@ethersproject/providers/lib/ankr-provider.js
+index 3d3e5de..f74495d 100644
+--- a/node_modules/@ethersproject/providers/lib/ankr-provider.js
++++ b/node_modules/@ethersproject/providers/lib/ankr-provider.js
+@@ -34,6 +34,8 @@ function getHost(name) {
+             return "rpc.ankr.com/eth_goerli/";
+         case "matic":
+             return "rpc.ankr.com/polygon/";
++        case "maticmum":
++            return "rpc.ankr.com/polygon_mumbai/";
+         case "arbitrum":
+             return "rpc.ankr.com/arbitrum/";
+     }
