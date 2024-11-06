@@ -23,7 +23,7 @@
     "bn.js": "^5.2.1",
     "eth-sig-util": "^3.0.1",
     "ethers": "^5.7.2",
-    "fireblocks-sdk": "^4.1.0",
+    "fireblocks-sdk": "^5.33.0",
     "node-fetch": "^2.6.9",
     "web3": "^1.9.0",
     "web3-eth-contract": "^1.9.0"
