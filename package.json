@@ -22,11 +22,11 @@
     "bn": "^1.0.5",
     "bn.js": "^5.2.1",
     "eth-sig-util": "^3.0.1",
-    "ethers": "^5.7.2",
+    "ethers": "^6.0.0",
     "fireblocks-sdk": "^4.1.0",
     "node-fetch": "^2.6.9",
-    "web3": "^1.9.0",
-    "web3-eth-contract": "^1.9.0"
+    "web3": "^4.2.0",
+    "web3-eth-contract": "^4.1.1"
   },
   "files": [
     "dist/**/*",
