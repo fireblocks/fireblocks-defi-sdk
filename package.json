@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "bn": "^1.0.5",
-    "bn.js": "^5.2.1",
+    "bn.js": "^5.2.2",
     "eth-sig-util": "^3.0.1",
     "ethers": "^5.7.2",
     "fireblocks-sdk": "^4.1.0",
